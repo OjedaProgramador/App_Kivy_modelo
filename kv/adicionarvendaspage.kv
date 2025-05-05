@@ -5,22 +5,112 @@
                 size: self.size
                 pos: self.pos
                 source: 'icones/bg1.png'
+
+        #Selecionar cliente
         Label:
-            pos_hint: {'right':0.85 , 'top':0.95}
-            size_hint: 0.7, 0.2
+            pos_hint: {'right':1 , 'top':1}
+            size_hint: 1, 0.05
+            text: 'Selecione o Cliente'
+
+        # rolagem pela lateral (horizontal)
+        ScrollView:
+            pos_hint:{'right':1 , 'top':0.95 }
+            size_hint: 1, 0.15
+            GridLayout:
+                rows:1
+                id:lista_clientes
+                #Vai 'rolar' para os lados -----------
+                size_hint_x:None
+                width:self.minimum_width
+                column_default_width: '100dp'
+                column_force_default: True
+
+
+        # Selecionar produto
+        Label:
+            pos_hint: {'right':1 , 'top':0.75}
+            size_hint: 1, 0.05
+            text: 'Selecione o Produto'
+
+        # rolagem pela lateral (horizontal)
+
+        ScrollView:
+            pos_hint:{'right':1 , 'top':0.7}
+            size_hint: 1, 0.15
+            GridLayout:
+                rows:1
+                id:lista_produtos
+                #Vai 'rolar' para os lados -----------
+                size_hint_x:None
+                width:self.minimum_width
+                column_default_width: '100dp'
+                column_force_default: True
+
+        Label:
+            id: label_data
+            pos_hint:{'right':1 , 'top':0.5}
+            size_hint: 1, 0.05
             bold: True
-            text: 'Estou na página adicionarVendas'
-        FloatLayout:
-            pos_hint: {'right':1, 'top':0.12}
-            size_hint: 1, 0.12
-            canvas:
-                Color:
-                    rgb: utils.get_color_from_hex('#006D7E')
+            text: 'Data: 05/05/2025'
+        #selecionar a unidade
+        GridLayout:
+            rows:1
+            pos_hint:{'right':0.9 , 'top':0.45}
+            size_hint: 0.8, 0.1
+            Label:
+                text: 'Kg'
+                id: 'unidades_kg'
+            Label:
+                text: 'Unidades'
+                id: 'unidades_unidades'
+            Label:
+                text: 'Litros'
+                id: 'unidades_litros'
+
+         # Botões
+
+        LabelButton:
+            canvas.before:
                 Rectangle:
                     size: self.size
                     pos: self.pos
-            ImageButton:
-                pos_hint: {'right':0.2, 'top':0.9}
-                size_hint: 0.2, 0.8
-                source:'icones/voltar.png'
-                on_release: app.mudar_tela('homepage')
+                    source: 'icones/botao.png' if self.state == 'normal' else 'icones/botao_apertado.png'
+            on_release:app.mudar_tela('homepage')
+            text: 'CANCELAR'
+            pos_hint: {'right':0.45 , 'top':0.2}
+            size_hint: 0.4, 0.2
+
+        LabelButton:
+            canvas.before:
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+                    source: 'icones/botao.png' if self.state == 'normal' else 'icones/botao_apertado.png'
+            on_release:print('adicionar uma venda')
+            text: 'Adicionar Venda'
+            pos_hint: {'right':0.95 , 'top':0.2}
+            size_hint: 0.4, 0.2
+
+        #seleionar o preço
+        GridLayout:
+            rows:1
+            pos_hint:{'right':0.9 , 'top':0.355}
+            size_hint: 0.8, 0.075
+            Label:
+                text: 'Preço Total (R$:)'
+            TextInput:
+                id: preco_total
+                hint_text: 'Digite apenas números'
+        #selecionar a quantidade
+        GridLayout:
+            rows:1
+            pos_hint:{'right':0.9 , 'top':0.275}
+            size_hint: 0.8, 0.075
+            Label:
+                text: 'Quantidade total'
+            TextInput:
+                id: qtde_total
+                hint_text: '0'
+
+
+
