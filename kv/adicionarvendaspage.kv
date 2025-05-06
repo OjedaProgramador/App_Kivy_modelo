@@ -22,8 +22,8 @@
                 #Vai 'rolar' para os lados -----------
                 size_hint_x:None
                 width:self.minimum_width
-                column_default_width: '100dp'
-                column_force_default: True
+                col_default_width: '100dp'
+                col_force_default: True
 
 
         # Selecionar produto
@@ -32,8 +32,7 @@
             size_hint: 1, 0.05
             text: 'Selecione o Produto'
 
-        # rolagem pela lateral (horizontal)
-
+        # rolagem pela lateral (horizontal) ------------------------------------
         ScrollView:
             pos_hint:{'right':1 , 'top':0.7}
             size_hint: 1, 0.15
@@ -43,8 +42,8 @@
                 #Vai 'rolar' para os lados -----------
                 size_hint_x:None
                 width:self.minimum_width
-                column_default_width: '100dp'
-                column_force_default: True
+                col_default_width: '100dp'
+                col_force_default: True
 
         Label:
             id: label_data
@@ -67,8 +66,7 @@
                 text: 'Litros'
                 id: 'unidades_litros'
 
-         # Botões
-
+         # Botões ------------------------------------------------
         LabelButton:
             canvas.before:
                 Rectangle:

@@ -35,6 +35,26 @@ class MainApp(App):
             imagem = ImageButton(source=f'icones/fotos_perfil/{foto}', on_release=partial(self.mudar_foto_perfil, foto))
             lista_foto.add_widget(imagem)
 
+        # carregar as fotos dos clientes
+        arquivo = os.listdir('icones/fotos_clientes')
+        adicionar_vendaspage = self.root.ids['adicionarvendaspage']
+        lista_clientes = adicionar_vendaspage.ids['lista_clientes']
+        for foto_cliente in arquivo:
+            imagem = ImageButton(source=f'icones/fotos_clientes/{foto_cliente}')
+            label = LabelButton(text=foto_cliente.replace('.png', '').capitalize())
+            lista_clientes.add_widget(imagem)
+            lista_clientes.add_widget(label)
+
+        # carregar as fotos dos produtos
+        arquivo = os.listdir('icones/fotos_produtos')
+        adicionar_vendaspage = self.root.ids['adicionarvendaspage']
+        lista_produto = adicionar_vendaspage.ids['lista_produtos']
+        for foto_produto in arquivo:
+            imagem = ImageButton(source=f'icones/fotos_produtos/{foto_produto}')
+            label = LabelButton(text=foto_produto.replace('.png', '').capitalize())
+            lista_produto.add_widget(imagem)
+            lista_produto.add_widget(label)
+
         self.carregar_infos_usuario()
 
     def carregar_infos_usuario(self):

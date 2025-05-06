@@ -7,3 +7,6 @@ Parece que está tudo certo com este arquivo
 
 Hoje  dia 05 de maio, estou estudando a aula nº: 39 (adicionar vendas)
             Já conclui esta aula.
+
+Hoje dia 06 de maio, estou estudando a aula nº: 40.
+            já conclui esta aula!!!!!
