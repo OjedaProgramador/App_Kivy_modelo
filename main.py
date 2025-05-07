@@ -1,6 +1,6 @@
 #este arquivo ESTÁ no ambiente vemv
 # Consegui salvar no ambiente VENV
-
+from enum import nonmember
 from os import listdir
 
 
@@ -20,6 +20,10 @@ from datetime import date
 
 GUI = Builder.load_file("main.kv")
 class MainApp(App):
+    cliente = None
+    produto = None
+    unidade = None
+
 
     def build(self):
         self.firebase = MyFireBase()
@@ -174,6 +178,7 @@ class MainApp(App):
                 mensagem_texto.text = 'Vendedor adicionado com sucesso'
 
     def selecionar_cliente(self, foto, *args):
+        self.cliente = foto.replace('.png', '')
         # pintar de azul o item que foi selecionado
         adicionar_vendaspage = self.root.ids['adicionarvendaspage']
         lista_clientes = adicionar_vendaspage.ids['lista_clientes']
@@ -191,6 +196,7 @@ class MainApp(App):
                 pass
 
     def selecionar_produto(self, foto, *args):
+        self.produto = foto.replace('.png', '')
         # pintar de azul o item que foi selecionado
         adicionar_vendaspage = self.root.ids['adicionarvendaspage']
         lista_produto = adicionar_vendaspage.ids['lista_produtos']
@@ -210,12 +216,64 @@ class MainApp(App):
 
     def selecionar_unidade(self, id_label, *args):
         pagina_adicionarvendas = self.root.ids['adicionarvendaspage']
-
+        self.unidade = id_label.replace('unidades_', '')
         pagina_adicionarvendas.ids['unidades_kg'].color = (1, 1, 1, 1)
         pagina_adicionarvendas.ids['unidades_unidades'].color = (1, 1, 1, 1)
         pagina_adicionarvendas.ids['unidades_litros'].color = (1, 1, 1, 1)
 
         pagina_adicionarvendas.ids[id_label].color = (0, 207/255, 219/255, 1)
+
+    def adicionar_venda(self):
+        cliente = self.cliente
+        produto = self.produto
+        unidade = self.unidade
+        pagina_adicionarvendaspage = self.root.ids['adicionarvendaspage']
+        data = pagina_adicionarvendaspage.ids['label_data'].text.replace('Data:', '')
+        preco = pagina_adicionarvendaspage.ids['preco_total'].text
+        quantidade = pagina_adicionarvendaspage.ids['qtde_total'].text
+
+        if not cliente:
+            pagina_adicionarvendaspage.ids['label_selecione_cliente'].color = (1,0,0,1)
+        if not produto:
+            pagina_adicionarvendaspage.ids['label_selecione_produto'].color = (1,0,0,0)
+        if not  unidade:
+            pagina_adicionarvendaspage.ids['unidades_kg'].color = (1,0,0,1)
+            pagina_adicionarvendaspage.ids['unidades_unidades'].color = (1,0,0,1)
+            pagina_adicionarvendaspage.ids['unidades_litros'].color = (1,0,0,1)
+        if not preco:
+            pagina_adicionarvendaspage.ids['label_preco'].color = (1,0,0,1)
+        else:
+            try:
+                preco = float(preco)
+            except:
+                pagina_adicionarvendaspage.ids['label_preco'].color = (1,0,0,1)
+        if not quantidade:
+            pagina_adicionarvendaspage.ids['label_qtde'].color = (1,0,0,1)
+        else:
+            try:
+                quantidade = float(quantidade)
+            except:
+                pagina_adicionarvendaspage.ids['label_qtde']
+
+        # se a pessoa preencheu tudo certo, AGORA posso Adicionar a venda no Banco de Dados na Internet
+        if cliente and produto and unidade and preco and quantidade and (type(preco) == float) and (type(quantidade) == float):
+            foto_produto = produto + '.png'
+            foto_cliente = cliente + '.png'
+
+            info = f'{{"cliente": "{cliente}", "produto": "{produto}", "foto_cliente": "{foto_cliente}", "foto_produto": "{foto_produto}", "data": "{data}", "unidade": "{unidade}", "preco": "{preco}", "quantidade": "{quantidade}"}}'
+            requests.post(f'https://aplicativokivyojeda-default-rtdb.firebaseio.com/{self.local_id}/vendas.json', data=info)
+
+            banner = BannerVenda(cliente=cliente, produto=produto, foto_cliente=foto_cliente, foto_produto=foto_produto,
+                                 data=data, unidade=unidade,preco=preco,  qtde=quantidade)
+            pagina_homepage = self.root.ids['homepage']
+            lista_vendas = pagina_homepage.ids['lista_vendas']
+            lista_vendas.add_widget(banner)
+
+            self.mudar_tela('homepage')
+
+        self.cliente = None
+        self.produto = None
+        self.unidade = None
 
 MainApp().run()
 
