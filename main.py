@@ -109,19 +109,22 @@ class MainApp(App):
 
             # Preencher lista de vendas do Usuário
             try:
-                vendas = requisicao_dic['vendas'][1:]
+
+                vendas = requisicao_dic['vendas']
                 self.vendas = vendas
                 pagina_homepage = self.root.ids['homepage']
                 lista_vendas = pagina_homepage.ids['lista_vendas']
-                for venda in vendas:
+                for id_venda in vendas:
+                    venda = vendas[id_venda]
                     banner = BannerVenda(cliente=venda['cliente'], data=venda['data'], foto_cliente=venda['foto_cliente'],
                                          foto_produto=venda['foto_produto'], preco=venda['preco'], produto=venda['produto'],
                                          qtde=venda['qtde'], unidade=venda['unidade'])
 
                     lista_vendas.add_widget(banner)
 
-            except:
-                pass
+            except Exception as exceção:
+                print(exceção)
+
 
             self.mudar_tela('homepage')
 
@@ -268,6 +271,18 @@ class MainApp(App):
             pagina_homepage = self.root.ids['homepage']
             lista_vendas = pagina_homepage.ids['lista_vendas']
             lista_vendas.add_widget(banner)
+
+
+
+            requisicao = requests.get(f'https://aplicativokivyojeda-default-rtdb.firebaseio.com/{self.local_id}/total_vendas.json')
+            total_vendas =float(requisicao.json())
+            total_vendas += preco
+            info = f'{{"total_vendas": "{total_vendas}"}}'
+            requests.patch(f'https://aplicativokivyojeda-default-rtdb.firebaseio.com/{self.local_id}.json',
+                           data=info)
+
+            homepage = self.root.ids['homepage']
+            homepage.ids['label_total_vendas'].text = f'[color=#000000]Total de Vendas[/color] [b]R$: {total_vendas}[/b]'
 
             self.mudar_tela('homepage')
 

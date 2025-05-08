@@ -14,4 +14,7 @@ Hoje dia 06 de maio, estou estudando a aula nº: 40.
 Hoje dia 06 de maio, estou estudando a aula nº: 41.
             Já conclui esta aula
 
-Hoje dia 07 de maio, estou estudando a aula nº: 42. (andamento) --> parei no minuto 23:00 !!!!
+Hoje dia 07 de maio, estou estudando a aula nº: 42. (andamento)
+            já conclui esta aula !!!!
+
+Hoje dia 8 de maio, estou estudando a aula nº: 43 --> não consegui entender a questão 'qtde'
