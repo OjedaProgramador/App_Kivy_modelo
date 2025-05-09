@@ -109,7 +109,7 @@ class MainApp(App):
 
             # Preencher lista de vendas do Usuário
             try:
-
+                print(requisicao_dic)
                 vendas = requisicao_dic['vendas']
                 self.vendas = vendas
                 pagina_homepage = self.root.ids['homepage']
@@ -118,7 +118,7 @@ class MainApp(App):
                     venda = vendas[id_venda]
                     banner = BannerVenda(cliente=venda['cliente'], data=venda['data'], foto_cliente=venda['foto_cliente'],
                                          foto_produto=venda['foto_produto'], preco=venda['preco'], produto=venda['produto'],
-                                         qtde=venda['qtde'], unidade=venda['unidade'])
+                                         qtde=venda['quantidade'], unidade=venda['unidade'])
 
                     lista_vendas.add_widget(banner)
 
