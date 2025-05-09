@@ -118,7 +118,8 @@ class MainApp(App):
                     venda = vendas[id_venda]
                     banner = BannerVenda(cliente=venda['cliente'], data=venda['data'], foto_cliente=venda['foto_cliente'],
                                          foto_produto=venda['foto_produto'], preco=venda['preco'], produto=venda['produto'],
-                                         qtde=venda['qtde'], unidade=venda['unidade'])
+                                         qtde=venda['quantidade'], unidade=venda['unidade'])
+                                        # mudei de 'qtde' para 'quantidade'
 
                     lista_vendas.add_widget(banner)
 
