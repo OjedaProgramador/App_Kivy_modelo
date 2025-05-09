@@ -20,7 +20,7 @@ class BannerVenda(GridLayout):
         produto = kwargs['produto']
         foto_produto = kwargs['foto_produto']
         foto_cliente = kwargs['foto_cliente']
-        qtde = int(kwargs['qtde'])
+        qtde = float(kwargs['qtde'])
         preco = float(kwargs['preco'])
         data = kwargs['data']
         unidade = kwargs['unidade']

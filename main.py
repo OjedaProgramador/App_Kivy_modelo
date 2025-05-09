@@ -291,6 +291,87 @@ class MainApp(App):
         self.produto = None
         self.unidade = None
 
+    def carregar_todas_vendas(self):
+        ### preencher a pagina todasvendaspage ###
+        pagina_todasvendaspage = self.root.ids['todasvendaspage']  # SEMPRE COLOQUE COLCHETES E NUNCA 'PARENTESE'
+        lista_vendas = pagina_todasvendaspage.ids['lista_vendas']  # SEMPRE COLOQUE COLCHETES E NUNCA 'PARENTESE'
+
+        for item in list(lista_vendas.children):
+            lista_vendas.remove_widget(item)
+
+        # Pegar informações da EMPRESA
+        requisicao = requests.get(f'https://aplicativokivyojeda-default-rtdb.firebaseio.com/.json?orderBy="id_vendedor"')
+        requisicao_dic = requisicao.json()
+
+        # Preencher foto da empresa
+        foto_perfil = self.root.ids['foto_perfil']
+        foto_perfil.source = f"icones/fotos_perfil/hash.png"
+
+
+
+        total_vendas = 0
+        for local_id_usuario in requisicao_dic:
+            try:
+                vendas = requisicao_dic[local_id_usuario]['vendas']
+                for id_venda in vendas:
+                    venda = vendas[id_venda]
+                    total_vendas += float(venda['preco'])
+                    banner = BannerVenda(cliente=venda['cliente'], data=venda['data'],
+                                         foto_cliente=venda['foto_cliente'],
+                                         foto_produto=venda['foto_produto'], preco=venda['preco'],
+                                         produto=venda['produto'],
+                                         qtde=venda['quantidade'], unidade=venda['unidade'])
+                    lista_vendas.add_widget(banner)
+
+            except Exception as exessao:
+                print(exessao)
+
+        # # Preencher o total de vendas
+        pagina_todasvendaspage.ids['label_total_vendas'].text = f'[color=#000000]Total de Vendas[/color] [b]R$: {total_vendas}[/b]'
+
+
+
+        # redirecionar para a pagina todasvendaspage
+        self.mudar_tela('todasvendaspage')
+
+    def sair_todas_vendas(self):
+        foto_perfil = self.root.ids['foto_perfil']
+        foto_perfil.source = f"icones/fotos_perfil/{self.avatar}"
+
+        self.mudar_tela('ajustespage')
+
+    def carregar_vendas_vendedor(self, dic_info_vendedor, *args):
+
+
+
+        try:
+            pagina_vendasoutrovendedorpage = self.root.ids['vendasoutrovendedorpage']  # SEMPRE COLOQUE COLCHETES E NUNCA 'PARENTESE'
+            lista_vendas = pagina_vendasoutrovendedorpage.ids['lista_vendas']  # SEMPRE COLOQUE COLCHETES E NUNCA 'PARENTESE'
+            vendas = dic_info_vendedor['vendas']
+            for id_venda in vendas:
+                 venda = vendas[id_venda]
+                 banner = BannerVenda(cliente=venda['cliente'], data=venda['data'],
+                                         foto_cliente=venda['foto_cliente'],
+                                         foto_produto=venda['foto_produto'], preco=venda['preco'],
+                                         produto=venda['produto'],
+                                         qtde=venda['quantidade'], unidade=venda['unidade'])
+                 lista_vendas.add_widget(banner)
+
+        except Exception as exessao:
+                print(exessao)
+
+        total_vendas = dic_info_vendedor['total_vendas']
+        pagina_vendasoutrovendedorpage.ids['label_total_vendas'].text = f'[color=#000000]Total de Vendas[/color] [b]R$: {total_vendas}[/b]'
+
+        # Preencher foto de perfil
+        foto_perfil = self.root.ids['foto_perfil']
+        avatar = dic_info_vendedor['avatar']
+        foto_perfil.source = f"icones/fotos_perfil/{avatar}"
+
+
+        self.mudar_tela('vendasoutrovendedorpage')
+
+
 MainApp().run()
 
 
