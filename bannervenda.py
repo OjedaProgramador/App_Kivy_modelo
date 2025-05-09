@@ -52,7 +52,7 @@ class BannerVenda(GridLayout):
         direita = FloatLayout()
         direita_label_data = Label(text=f'Data: {data}', pos_hint={'right': 1, 'top': 0.9},size_hint=(1, 0.33))
         direita_label_preco = Label(text=f'Preço: R$ {preco:,.2f}', pos_hint={'right': 1, 'top': 0.65},size_hint=(1, 0.33))
-        direita_label_qtde = Label(text=f'{qtde}', pos_hint={'right': 1, 'top': 0.4},size_hint=(1, 0.33))
+        direita_label_qtde = Label(text=f'{qtde} {unidade}', pos_hint={'right': 1, 'top': 0.4},size_hint=(1, 0.33))
 
         direita.add_widget(direita_label_data)
         direita.add_widget(direita_label_qtde)
