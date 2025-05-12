@@ -41,3 +41,5 @@ Hoje dia 8 de maio, estou estudando a aula nº: 50
 
         Já conclui esta aula !!!!!
 Hoje dia 8 de maio, estou estudando a aula nº: 53
+        Já conclui esta aula !!!!!
+Hoje dia 8 de maio, estou estudando a aula nº: 54 --> Não consegui baixar o pacote 'sudo apt install libtinfo5'

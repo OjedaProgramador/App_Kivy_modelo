@@ -18,7 +18,7 @@ from myfirebase import MyFireBase
 from bannervendedor import BannerVendedor
 from datetime import date
 
-os.environ['SSL_CERT_FILE'] = certifi.where() # o celular precisa dessa biblioteca para acessar a Internet 
+os.environ['SSL_CERT_FILE'] = certifi.where() # o celular precisa dessa biblioteca para acessar a Internet
 
 GUI = Builder.load_file("main.kv")
 class MainApp(App):
