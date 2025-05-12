@@ -1,5 +1,3 @@
-#este arquivo ESTÁ no ambiente vemv
-# Consegui salvar no ambiente VENV
 from enum import nonmember
 from os import listdir
 
@@ -82,7 +80,7 @@ class MainApp(App):
 
 
             # Pegar informações do Usuário
-            requisicao = requests.get(f'https://aplicativokivyojeda-default-rtdb.firebaseio.com/{self.local_id}.json')
+            requisicao = requests.get(f'https://aplicativokivyojeda-default-rtdb.firebaseio.com/{self.local_id}.json?auth={self.id_token}')
             requisicao_dic = requisicao.json()
 
 
@@ -156,7 +154,7 @@ class MainApp(App):
         foto_perfil.source = f"icones/fotos_perfil/{foto}"
 
         info = f'{{"avatar": "{foto}"}}'
-        requisicao = requests.patch(f'https://aplicativokivyojeda-default-rtdb.firebaseio.com/{self.local_id}.json',
+        requisicao = requests.patch(f'https://aplicativokivyojeda-default-rtdb.firebaseio.com/{self.local_id}.json?auth={self.id_token}',
                                     data=info)
 
     def adicionar_vendedor(self, id_vendedor_adicionado):
@@ -177,7 +175,7 @@ class MainApp(App):
             else:
                 self.equipe = self.equipe + f",{id_vendedor_adicionado}"
                 info = f'{{"equipe": "{self.equipe}"}}'
-                requests.patch(f'https://aplicativokivyojeda-default-rtdb.firebaseio.com/{self.local_id}.json',
+                requests.patch(f'https://aplicativokivyojeda-default-rtdb.firebaseio.com/{self.local_id}.json?auth={self.id_token}',
                                data=info)
                 mensagem_texto.text = 'Vendedor adicionado com sucesso'
 
@@ -265,7 +263,7 @@ class MainApp(App):
             foto_cliente = cliente + '.png'
 
             info = f'{{"cliente": "{cliente}", "produto": "{produto}", "foto_cliente": "{foto_cliente}", "foto_produto": "{foto_produto}", "data": "{data}", "unidade": "{unidade}", "preco": "{preco}", "quantidade": "{quantidade}"}}'
-            requests.post(f'https://aplicativokivyojeda-default-rtdb.firebaseio.com/{self.local_id}/vendas.json', data=info)
+            requests.post(f'https://aplicativokivyojeda-default-rtdb.firebaseio.com/{self.local_id}/vendas.json?auth={self.id_token}', data=info)
 
             banner = BannerVenda(cliente=cliente, produto=produto, foto_cliente=foto_cliente, foto_produto=foto_produto,
                                  data=data, unidade=unidade,preco=preco,  qtde=quantidade)
@@ -275,11 +273,11 @@ class MainApp(App):
 
 
 
-            requisicao = requests.get(f'https://aplicativokivyojeda-default-rtdb.firebaseio.com/{self.local_id}/total_vendas.json')
+            requisicao = requests.get(f'https://aplicativokivyojeda-default-rtdb.firebaseio.com/{self.local_id}/total_vendas.jsonauth={self.id_token}')
             total_vendas =float(requisicao.json())
             total_vendas += preco
             info = f'{{"total_vendas": "{total_vendas}"}}'
-            requests.patch(f'https://aplicativokivyojeda-default-rtdb.firebaseio.com/{self.local_id}.json',
+            requests.patch(f'https://aplicativokivyojeda-default-rtdb.firebaseio.com/{self.local_id}.json?auth={self.id_token}',
                            data=info)
 
             homepage = self.root.ids['homepage']
@@ -334,20 +332,23 @@ class MainApp(App):
         # redirecionar para a pagina todasvendaspage
         self.mudar_tela('todasvendaspage')
 
-    def sair_todas_vendas(self):
+    def sair_todas_vendas(self, id_tela):
         foto_perfil = self.root.ids['foto_perfil']
         foto_perfil.source = f"icones/fotos_perfil/{self.avatar}"
 
-        self.mudar_tela('ajustespage')
+        self.mudar_tela(id_tela)
 
     def carregar_vendas_vendedor(self, dic_info_vendedor, *args):
-
-
 
         try:
             pagina_vendasoutrovendedorpage = self.root.ids['vendasoutrovendedorpage']  # SEMPRE COLOQUE COLCHETES E NUNCA 'PARENTESE'
             lista_vendas = pagina_vendasoutrovendedorpage.ids['lista_vendas']  # SEMPRE COLOQUE COLCHETES E NUNCA 'PARENTESE'
             vendas = dic_info_vendedor['vendas']
+
+            # limpar vendas anteriores
+            for item in list(lista_vendas.children):
+                lista_vendas.remove_widget(item)
+
             for id_venda in vendas:
                  venda = vendas[id_venda]
                  banner = BannerVenda(cliente=venda['cliente'], data=venda['data'],

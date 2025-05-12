@@ -32,18 +32,18 @@ class MyFireBase():
             with open('refreshToken.txt', 'w') as arquivo:   # cria um arquivo.txt e ao mesmo tempo cria uma variável
                 arquivo.write(refresh_token)                  # que eu posso manipular !!!!
 
-            req_id = requests.get('https://aplicativokivyojeda-default-rtdb.firebaseio.com/proximo_id_vendedor.json')
+            req_id = requests.get(f'https://aplicativokivyojeda-default-rtdb.firebaseio.com/proximo_id_vendedor.json?auth={id_token}')
             id_vendedor = req_id.json()
 
 
-            link = f'https://aplicativokivyojeda-default-rtdb.firebaseio.com/{local_id}.json'
+            link = f'https://aplicativokivyojeda-default-rtdb.firebaseio.com/{local_id}.json?auth={id_token}'
             info_usuario = f'{{"avatar": "hash.png" , "equipe": "" , "total_vendas": "0", "vendas": "", "id_vendedor": "{id_vendedor}"}}'
             requisicao_usurario = requests.patch(link, data=info_usuario)
 
             # Atualizar o proximo_id_vendedor
             proximo_id_vendedor = int(id_vendedor) + 1
             info_id_vendedor = f'{{"proximo_id_vendedor": "{proximo_id_vendedor}"}}'
-            requests.patch('https://aplicativokivyojeda-default-rtdb.firebaseio.com/.json', data=info_id_vendedor)
+            requests.patch(f'https://aplicativokivyojeda-default-rtdb.firebaseio.com/.json?auth={id_token}', data=info_id_vendedor)
 
 
             meu_aplicativo.carregar_infos_usuario()
@@ -55,7 +55,7 @@ class MyFireBase():
             pagina_login = meu_aplicativo.root.ids['loginpage']
             pagina_login.ids['mensagem_login'].text = mensagem_erro
             pagina_login.ids['mensagem_login'].color = (1,0,0,1)
-        print(requisicao_dic)
+
 
     def fazer_login(self, email, senha):
         link = f'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={self.API_KEY}'

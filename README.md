@@ -20,3 +20,24 @@ Hoje dia 8 de maio, estou estudando a aula nº: 45
             já conclui esta aula !!!!
 Hoje dia 8 de maio, estou estudando a aula nº: 46
             já conclui esta aula !!!!
+Hoje dia 8 de maio, estou estudando a aula nº: 47
+            Já conclui esta aula !!!!!
+Hoje dia 8 de maio, estou estudando a aula nº: 48
+            já conclui esta aula !!!!
+Hoje dia 8 de maio, estou estudando a aula nº: 49 --> 
+            Banco de Dados 
+            {
+              "rules": {
+                ".read": true,
+                ".write":true,
+                ".indexOn": ["id_vendedor"],  
+              }
+            }
+ Já conclui esta aula !!!!!
+
+Hoje dia 8 de maio, estou estudando a aula nº: 50
+    quando eu mudo a minha foto de perfil, e vou para a página de Equipe de vendas, a foto não é atualizada.
+        só é atualizada quando eu fecho o app e abro novamente
+
+        Já conclui esta aula !!!!!
+Hoje dia 8 de maio, estou estudando a aula nº: 53
